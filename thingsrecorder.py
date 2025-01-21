@@ -15,10 +15,6 @@ def replicate(script, replicate_times, delay, stop_event):
         if stop_event.is_set():
             break
         with open(script, 'r') as file:
-            content = file.readlines()[:-2]
-        with open(script, "w") as file:
-            file.write("".join(content))
-        with open(script, 'r') as file:
             for line in file.readlines():
                 if stop_event.is_set():
                     break
@@ -156,6 +152,10 @@ class RecorderGUI:
 
         keyboard_listener.stop()
         mouse_listener.stop()
+        with open(self.current_script, 'r') as file:
+            content = file.readlines()[:-2]
+        with open(self.current_script, "w") as file:
+            file.write("".join(content))
 
     def load_script(self):
         filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
